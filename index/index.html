@@ -240,7 +240,7 @@
       }
 
       try {
-        let fileLengthArray = new TextDecoder().decode(fileContents.byteLength.toString());
+        let fileLengthArray = new TextEncoder().encode(fileContents.byteLength.toString());
         console.log(fileContents.byteLength);
         console.log(fileLengthArray);
         await fileLengthCharacteristic.writeValue(fileLengthArray);
