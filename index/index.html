@@ -223,7 +223,7 @@
       fileMaximumLengthCharacteristic = await service.getCharacteristic(
         FILE_MAXIMUM_LENGTH_UUID
       );
-      fileChecksumCharacteristic = await service.getCharacteristic(
+      getBlockOfFileCharacteristic = await service.getCharacteristic(
         FILE_CHECKSUM_UUID
       );
       commandCharacteristic = await service.getCharacteristic(COMMAND_UUID);
@@ -240,9 +240,6 @@
       );
       getFileLengthCharacteristic = await service.getCharacteristic(
         'bf88b656-3007-4a61-86e0-769c741026c0'
-      );
-      getBlockOfFileCharacteristic = await service.getCharacteristic(
-        'bf88b656-3009-4a61-86e0-769c741026c0'
       );
       // await errorMessageCharacteristic.startNotifications();
       // errorMessageCharacteristic.addEventListener(
@@ -282,9 +279,9 @@
         console.log(fileContents.byteLength);
         console.log(fileLengthArray);
         await fileLengthCharacteristic.writeValue(fileLengthArray);
-        let fileChecksum = crc32(fileContents);
-        let fileChecksumArray = Uint32Array.of(fileChecksum);
-        await fileChecksumCharacteristic.writeValue(fileChecksumArray);
+        // let fileChecksum = crc32(fileContents);
+        // let fileChecksumArray = Uint32Array.of(fileChecksum);
+        // await fileChecksumCharacteristic.writeValue(fileChecksumArray);
 
         let commandArray = Int32Array.of(1);
         await commandCharacteristic.writeValue(commandArray);
