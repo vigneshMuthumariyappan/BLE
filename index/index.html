@@ -130,7 +130,7 @@
 
           if (parseInt(decodeFileLength) >= decodeUnitMaintain) {
             const value = await getFileCharacteristic.readValue();
-            await getBlockOfFileCharacteristic.writeValue((decodeUnitMaintain+1).toString())
+            await getBlockOfFileCharacteristic.writeValue(new TextEncoder().encode((decodeUnitMaintain+1).toString()))
             const pre = fileResivedData.pop();
             if (!pre) fileResivedData.push(value);
             else {
