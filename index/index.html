@@ -240,14 +240,15 @@
       }
 
       try {
-        const decoder = new TextDecoder();
-        let fileLengthArray = decoder.decode(fileContents.byteLength.toString());
+        let fileLengthArray = Int32Array.of(fileContents.byteLength);
+        console.log(fileContents.byteLength);
+        console.log(fileLengthArray);
         await fileLengthCharacteristic.writeValue(fileLengthArray);
         let fileChecksum = crc32(fileContents);
-        let fileChecksumArray = decoder.decode(fileChecksum);
+        let fileChecksumArray = Uint32Array.of(fileChecksum);
         await fileChecksumCharacteristic.writeValue(fileChecksumArray);
 
-        let commandArray = decoder.decode(1);
+        let commandArray = Int32Array.of(1);
         await commandCharacteristic.writeValue(commandArray);
 
         sendFileBlock(fileContents, 0);
@@ -258,7 +259,7 @@
     }
 
     async function cancelTransfer() {
-      let commandArray = new TextDecoder().decode(2);
+      let commandArray = Int32Array.of(2);
       await commandCharacteristic.writeValue(commandArray);
     }
 
