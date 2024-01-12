@@ -113,8 +113,9 @@
     async function getTransferedFiled() {
       try {
         console.log('Initiate file get')
-        await getBlockOfFileCharacteristic.writeValue('1')
+        await getBlockOfFileCharacteristic.writeValue(new TextEncoder().encode('1'))
         const fileResivedData=[];
+        console.log('Initiate file 222')
         await callableFileTransfer()
         async function callableFileTransfer() {
           const decoder = new TextDecoder()
