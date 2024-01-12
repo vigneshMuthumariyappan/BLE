@@ -128,7 +128,7 @@
 
           console.log(decodeUnitMaintain)
 
-          if (parseInt(decodeFileLength) >= decodeUnitMaintain) {
+          if (decodeFileLength > decodeUnitMaintain) {
             const value = await getFileCharacteristic.readValue();
             await getBlockOfFileCharacteristic.writeValue(new TextEncoder().encode((decodeUnitMaintain+1).toString()))
             const pre = fileResivedData.pop();
@@ -142,6 +142,7 @@
                 newArray.set(array2, array1.length);
                 const mergedBuffer = newArray.buffer;
                 fileResivedData.push(mergedBuffer)
+                console.log(fileResivedData)
             }
            await callableFileTransfer()
           }
