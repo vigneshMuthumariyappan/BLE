@@ -221,6 +221,7 @@
       try {
         let maximumLengthValue =
         await fileMaximumLengthCharacteristic.readValue();
+        logger(maximumLength)
         let maximumLengthArray = new Uint32Array(maximumLengthValue);
         let maximumLength = maximumLengthArray[0];
         logger("Maximun length =====" + maximumLength)
