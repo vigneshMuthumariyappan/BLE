@@ -133,10 +133,10 @@
             console.log(value)
             await getBlockOfFileCharacteristic.writeValue(new TextEncoder().encode((decodeUnitMaintain+1).toString()))
             const pre = fileResivedData.pop();
-            if (!pre) fileResivedData.push(value);
+            if (!pre) fileResivedData.push(value.buffer);
             else {
                 const array1 = new Uint8Array(pre);
-                const array2 = new Uint8Array(value);
+                const array2 = new Uint8Array(value.buffer);
                 const totalLength = array1.length + array2.length;
                 const newArray = new Uint8Array(totalLength);
                 newArray.set(array1, 0);
