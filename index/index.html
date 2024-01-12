@@ -221,7 +221,7 @@
       try {
         let maximumLengthValue =
         await fileMaximumLengthCharacteristic.readValue();
-        let maximumLengthArray = new Uint32Array(maximumLengthValue.buffer);
+        let maximumLengthArray = new Uint32Array(maximumLengthValue);
         let maximumLength = maximumLengthArray[0];
         logger("Maximun length =====" + maximumLength)
         if (fileContents.byteLength > maximumLength) {
@@ -248,10 +248,10 @@
         await fileLengthCharacteristic.writeValue(fileLengthArray.buffer);
         let fileChecksum = crc32(fileContents);
         let fileChecksumArray = Uint32Array.of(fileChecksum);
-        await fileChecksumCharacteristic.writeValue(fileChecksumArray);
+        await fileChecksumCharacteristic.writeValue(fileChecksumArray.buffer);
 
         let commandArray = Int32Array.of(1);
-        await commandCharacteristic.writeValue(commandArray);
+        await commandCharacteristic.writeValue(commandArray.buffer);
 
         sendFileBlock(fileContents, 0);
         msg("File transfer succeeded");
@@ -311,7 +311,7 @@
           try {
             // Read the file as text using await
             const textContent = await readAsTextPromise(file);
-            logger('Read text content:', textContent);
+            logger('Read text content:');
 
             // Convert text content to ArrayBuffer
             const arrayBuffer = new TextEncoder().encode(textContent).buffer;
