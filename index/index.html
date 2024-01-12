@@ -275,6 +275,7 @@
     function onTransferStatusChanged(event) {
       let value = new Uint32Array(event.target.value.buffer);
       let statusCode = value[0];
+      logger("status code " + value)
       if (statusCode === 0) {
         onTransferSuccess();
       } else if (statusCode === 1) {
