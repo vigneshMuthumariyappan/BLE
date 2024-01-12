@@ -219,11 +219,7 @@
 
     async function transferFile(fileContents) {
       try {
-        let maximumLengthValue =
-        await fileMaximumLengthCharacteristic.readValue();
-        let maximumLengthArray = new Uint32Array(maximumLengthValue);
-        let maximumLength = maximumLengthArray[0];
-        logger("Maximun length =====" + maximumLength)
+        let maximumLength = 48000000;
         if (fileContents.byteLength > maximumLength) {
           msg(
             "File length is too long: " +
