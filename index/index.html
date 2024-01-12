@@ -272,9 +272,11 @@
     }
 
     function onTransferStatusChanged(event) {
-      let value = new Uint32Array(event.target.value.buffer);
-      let statusCode = value[0];
-      logger("status code " + value)
+      let value = new Uint8Array(event.target.value.buffer);
+      let utf8Decoder = new TextDecoder();
+      let decodeMessage = utf8Decoder.decode(value);
+      let statusCode = parseInt(decodeMessage);
+      logger("status code " + statusCode)
       if (statusCode === 0) {
         onTransferSuccess();
       } else if (statusCode === 1) {
