@@ -240,15 +240,14 @@
       }
 
       try {
-        let fileLengthArray = Int32Array.of(fileContents.byteLength);
-        console.log(fileContents.byteLength);
-        console.log(fileLengthArray);
+        const decoder = new TextDecoder();
+        let fileLengthArray = decoder.decode(fileContents.byteLength.toString());
         await fileLengthCharacteristic.writeValue(fileLengthArray);
         let fileChecksum = crc32(fileContents);
-        let fileChecksumArray = Uint32Array.of(fileChecksum);
+        let fileChecksumArray = decoder.decode(fileChecksum);
         await fileChecksumCharacteristic.writeValue(fileChecksumArray);
 
-        let commandArray = Int32Array.of(1);
+        let commandArray = decoder.decode(1);
         await commandCharacteristic.writeValue(commandArray);
 
         sendFileBlock(fileContents, 0);
@@ -259,7 +258,7 @@
     }
 
     async function cancelTransfer() {
-      let commandArray = Int32Array.of(2);
+      let commandArray = new TextDecoder().decode(2);
       await commandCharacteristic.writeValue(commandArray);
     }
 
@@ -345,7 +344,7 @@
         .then((_) => {
           bytesRemaining -= blockLength;
           logger("File transfer stateus")
-          if (bytesRemaining > 0) {
+          if (bytesRemaining > 0 && isFileTransferInProgress) {
             msg("File block written - " + bytesRemaining + " bytes remaining");
             bytesAlreadySent += blockLength;
             sendFileBlock(fileContents, bytesAlreadySent);
