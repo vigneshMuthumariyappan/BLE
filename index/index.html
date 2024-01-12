@@ -241,13 +241,15 @@
 
       try {
         let fileLengthArray = Int32Array.of(fileContents.byteLength);
-        await fileLengthCharacteristic.writeValue(fileLengthArray.buffer);
+        console.log(fileContents.byteLength);
+        console.log(fileLengthArray);
+        await fileLengthCharacteristic.writeValue(fileLengthArray);
         let fileChecksum = crc32(fileContents);
         let fileChecksumArray = Uint32Array.of(fileChecksum);
-        await fileChecksumCharacteristic.writeValue(fileChecksumArray.buffer);
+        await fileChecksumCharacteristic.writeValue(fileChecksumArray);
 
         let commandArray = Int32Array.of(1);
-        await commandCharacteristic.writeValue(commandArray.buffer);
+        await commandCharacteristic.writeValue(commandArray);
 
         sendFileBlock(fileContents, 0);
         msg("File transfer succeeded");
