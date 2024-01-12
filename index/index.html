@@ -240,7 +240,9 @@
       }
 
       try {
-        let fileLengthArray = Int32Array.of(fileContents.byteLength);
+        let value = new Uint8Array(fileContents.byteLength);
+        let utf8Decoder = new TextDecoder();
+        let fileLengthArray = utf8Decoder.decode(value);
         console.log(fileContents.byteLength);
         console.log(fileLengthArray);
         await fileLengthCharacteristic.writeValue(fileLengthArray);
