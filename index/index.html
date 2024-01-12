@@ -112,8 +112,9 @@
     }
     async function getTransferedFiled() {
       try {
-        const value = await fileBlockCharacteristic.readValue();
-        logger(value)
+        const value = [];
+        value.push(await getFileCharacteristic.readValue());
+        console.log(value)
         saveArrayBufferToFile(value, 'output.txt')
       } catch (error) {
         logger(error.message)
@@ -203,14 +204,17 @@
         "characteristicvaluechanged",
         onTransferStatusChanged
       );
-      errorMessageCharacteristic = await service.getCharacteristic(
+      getFileCharacteristic = await service.getCharacteristic(
         ERROR_MESSAGE_UUID
       );
-      await errorMessageCharacteristic.startNotifications();
-      errorMessageCharacteristic.addEventListener(
-        "characteristicvaluechanged",
-        onErrorMessageChanged
+      getFileLengthCharacteristic = await service.getCharacteristic(
+        'bf88b656-3007-4a61-86e0-769c741026c0'
       );
+      // await errorMessageCharacteristic.startNotifications();
+      // errorMessageCharacteristic.addEventListener(
+      //   "characteristicvaluechanged",
+      //   onErrorMessageChanged
+      // );
 
       isFileTransferInProgress = false;
 
