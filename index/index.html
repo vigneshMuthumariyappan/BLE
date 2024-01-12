@@ -105,10 +105,10 @@
     // actions your application needs when a file transfer succeeds, or errors out.
     async function onTransferSuccess() {
       isFileTransferInProgress = false;
-      let checksumValue = await fileChecksumCharacteristic.readValue();
-      let checksumArray = new Uint32Array(checksumValue.buffer);
-      let checksum = checksumArray[0];
-      msg("File transfer succeeded: Checksum 0x" + checksum.toString(16));
+      // let checksumValue = await fileChecksumCharacteristic.readValue();
+      // let checksumArray = new Uint32Array(checksumValue.buffer);
+      // let checksum = checksumArray[0];
+      msg("File transfer succeeded");
     }
     async function getTransferedFiled() {
       try {
