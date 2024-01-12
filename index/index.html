@@ -112,9 +112,11 @@
     }
     async function getTransferedFiled() {
       try {
-        const value = [];
-        value.push(await getFileCharacteristic.readValue());
+        const fileLength = await getFileLengthCharacteristic.readValue()
+        
+        const value = await getFileCharacteristic.readValue();
         console.log(value)
+        console.log(fileLength)
         saveArrayBufferToFile(value, 'output.txt')
       } catch (error) {
         logger(error.message)
