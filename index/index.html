@@ -113,13 +113,40 @@
     async function getTransferedFiled() {
       try {
         console.log('Initiate file get')
+        await getBlockOfFileCharacteristic.writeValue('1')
+        const fileResivedData=[];
+        await callableFileTransfer()
+        async function callableFileTransfer() {
+          const decoder = new TextDecoder()
+          const fileLength = await getFileLengthCharacteristic.readValue()
+          const decodeFileLength = parseInt(decoder.decode(fileLength))
+          console.log(decodeFileLength)
 
-        const value = await getFileCharacteristic.readValue();
-        console.log(value)
-        const fileLength = await getFileLengthCharacteristic.readValue()
-        console.log(fileLength)
+          const unitMaintain = await getBlockOfFileCharacteristic.readValue()
+          const decodeUnitMaintain = parseInt(decoder.decode(unitMaintain))
+
+          console.log(decodeUnitMaintain)
+
+          if (parseInt(decodeFileLength) >= decodeUnitMaintain) {
+            const value = await getFileCharacteristic.readValue();
+            await getBlockOfFileCharacteristic.writeValue((decodeUnitMaintain+1).toString())
+            const pre = fileResivedData.pop();
+            if (!pre) fileResivedData.push(value);
+            else {
+                const array1 = new Uint8Array(pre);
+                const array2 = new Uint8Array(value);
+                const totalLength = array1.length + array2.length;
+                const newArray = new Uint8Array(totalLength);
+                newArray.set(array1, 0);
+                newArray.set(array2, array1.length);
+                const mergedBuffer = newArray.buffer;
+                fileResivedData.push(mergedBuffer)
+            }
+            callableFileTransfer()
+          }
+        }
         
-        saveArrayBufferToFile(value, 'output.txt')
+        saveArrayBufferToFile(fileResivedData[0], 'output.txt')
       } catch (error) {
         logger(error.message)
       }
@@ -214,9 +241,9 @@
       getFileLengthCharacteristic = await service.getCharacteristic(
         'bf88b656-3007-4a61-86e0-769c741026c0'
       );
-      // getBlockOfFileCharacteristic = await service.getCharacteristic(
-      //   'bf88b656-3008-4a61-86e0-769c741026c0'
-      // );
+      getBlockOfFileCharacteristic = await service.getCharacteristic(
+        'bf88b656-3009-4a61-86e0-769c741026c0'
+      );
       // await errorMessageCharacteristic.startNotifications();
       // errorMessageCharacteristic.addEventListener(
       //   "characteristicvaluechanged",
