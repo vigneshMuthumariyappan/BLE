@@ -254,6 +254,7 @@
         await commandCharacteristic.writeValue(commandArray);
 
         sendFileBlock(fileContents, 0);
+        msg("File transfer succeeded");
       } catch (error) {
           logger(error.message)
       }
@@ -343,7 +344,7 @@
         .writeValue(blockView)
         .then((_) => {
           bytesRemaining -= blockLength;
-          logger("File transfer stateus" + isFileTransferInProgress)
+          logger("File transfer stateus")
           if (bytesRemaining > 0 && isFileTransferInProgress) {
             msg("File block written - " + bytesRemaining + " bytes remaining");
             bytesAlreadySent += blockLength;
