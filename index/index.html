@@ -240,12 +240,10 @@
       }
 
       try {
-        let value = new Uint8Array(fileContents.byteLength);
-        let utf8Decoder = new TextDecoder();
-        let fileLengthArray = utf8Decoder.decode(value);
+        let fileLengthArray = Int32Array.of(fileContents.byteLength);
         console.log(fileContents.byteLength);
         console.log(fileLengthArray);
-        await fileLengthCharacteristic.writeValue(fileLengthArray);
+        await fileLengthCharacteristic.writeValue(fileLengthArray.buffer);
         let fileChecksum = crc32(fileContents);
         let fileChecksumArray = Uint32Array.of(fileChecksum);
         await fileChecksumCharacteristic.writeValue(fileChecksumArray);
