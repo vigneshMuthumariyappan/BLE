@@ -341,7 +341,7 @@
         .then((_) => {
           bytesRemaining -= blockLength;
           logger("File transfer stateus")
-          if (bytesRemaining > 0 && isFileTransferInProgress) {
+          if (bytesRemaining > 0) {
             msg("File block written - " + bytesRemaining + " bytes remaining");
             bytesAlreadySent += blockLength;
             sendFileBlock(fileContents, bytesAlreadySent);
