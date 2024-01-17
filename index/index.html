@@ -146,6 +146,7 @@
                 fileResivedData.push(mergedBuffer)
                 console.log(fileResivedData)
             }
+            msg("File block written - " + (decodeFileLength - decodeUnitMaintain)*128+ " bytes remaining");
            await callableFileTransfer()
           }
         }
@@ -259,7 +260,9 @@
     async function transferFile(fileContents) {
       try {
         let maximumLength = 48000000;
+        console.log('FIle length =================')
         console.log(fileContents.byteLength)
+        console.log(fileContents.byteLength > maximumLength)
         if (fileContents.byteLength > maximumLength) {
           console.log("In the file path")
           msg(
@@ -307,10 +310,6 @@
     // ------------------------------------------------------------------------------
     // The rest of these functions are internal implementation details, and shouldn't
     // be called by users of this module.
-
-    function onTransferInProgress() {
-      isFileTransferInProgress = true;
-    }
 
     function onTransferStatusChanged(event) {
       let value = new Uint8Array(event.target.value.buffer);
@@ -368,11 +367,8 @@
 
 
     async function sendFileBlock(fileContents, bytesAlreadySent) {
-      logger(fileContents)
-      logger(fileContents.byteLength)
-      logger(bytesAlreadySent)
+
       let bytesRemaining = fileContents.byteLength - bytesAlreadySent;
-      logger(bytesRemaining)
 
       const maxBlockLength = 128;
       const blockLength = Math.min(bytesRemaining, maxBlockLength);
