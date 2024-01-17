@@ -2,17 +2,23 @@
 <html>
   <head>
     <title>BLE File Transfer Example</title>
+    <style>
+      button {
+        padding: 10px;
+        margin-right: 10px;
+        cursor: pointer;
+      }
+      label {
+        border: 1px solid rgb(173, 173, 173);
+        padding: 10px;
+        cursor: pointer;
+      }
+    </style>
   </head>
   <body>
     <div>
       Test file transfer over BLE. To use:
       <ul>
-        <li>
-          Flash an Arduino Nano BLE Sense board with
-          <a href="https://github.com/petewarden/ble_file_transfer"
-            >the test sketch</a
-          >.
-        </li>
         <li>Click the connect button and pair with the board.</li>
         <li>Press the transfer file button.</li>
       </ul>
@@ -23,8 +29,11 @@
       <button id="connect-button">Connect</button>
       <button id="transfer-file-button">Transfer File</button>
       <button id="get-file-button">Get File</button>
-      <button id="cancel-transfer-button">Cancel Transfer</button>
-      <input type="file" id="fileInput" />
+      <label for="fileInput" class="custom-file-upload">
+        Custom Upload
+        <input type="file" id="fileInput" style="display: none;"/>
+      </label>
+    
       <div id="status-label">Click button to connect to the board</div>
       <div style="padding: 20px; color: black; background-color: #e0e0e0;">
         <pre id="error-custom">
@@ -50,9 +59,6 @@
     const connectButton = document.getElementById("connect-button");
     const transferFileButton = document.getElementById("transfer-file-button");
     const getFileButton = document.getElementById("get-file-button");
-    const cancelTransferButton = document.getElementById(
-      "cancel-transfer-button"
-    );
     const statusElement = document.getElementById("status-label");
     // Check that the browser supports WebBLE, and raise a warning if not.
     if (!("bluetooth" in navigator)) {
@@ -75,7 +81,6 @@
     // choose to read before sending a file if you want to tell if it's already been sent.
 
     connectButton.addEventListener("click", function (event) {
-      logger('jdksjkdsjkdsj')
       try {
         connect();
         transferFileButton.addEventListener("click", async function (event) {
@@ -83,10 +88,6 @@
           // You'll want to replace this with the data you want to transfer.
           let fileContents = await prepareDummyFileContents();
           transferFile(fileContents);
-        });
-        cancelTransferButton.addEventListener("click", function (event) {
-          msg("Trying to cancel transfer ...");
-          cancelTransfer();
         });
         getFileButton.addEventListener("click", function (event) {
           msg("Get the data ...");
