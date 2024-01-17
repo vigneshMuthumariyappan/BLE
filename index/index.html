@@ -259,7 +259,9 @@
     async function transferFile(fileContents) {
       try {
         let maximumLength = 48000000;
+        console.log(fileContents.byteLength)
         if (fileContents.byteLength > maximumLength) {
+          console.log("In the file path")
           msg(
             "File length is too long: " +
               fileContents.byteLength +
