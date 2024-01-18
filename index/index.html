@@ -152,6 +152,7 @@
         }
         
         saveArrayBufferToFile(fileResivedData[0], 'output.txt')
+        msg("File received successfully");
       } catch (error) {
         logger(error.message)
       }
@@ -325,6 +326,10 @@
         onTransferInProgress();
       }
     }
+
+    const onTransferInProgress = () => {
+      isFileTransferInProgress = true;
+    };
 
     async function prepareDummyFileContents() {
       const fileInput = document.getElementById('fileInput');
